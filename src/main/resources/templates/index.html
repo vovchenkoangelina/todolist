@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>To-Do List</title>
+    <style>
+        body { font-family: sans-serif; padding: 2rem; }
+        .done { text-decoration: line-through; color: gray; }
+    </style>
+</head>
+<body>
+<h1>To-Do List</h1>
+
+<form th:action="@{/add}" method="post">
+    <input type="text" th:field="${newTask.description}" placeholder="Новая задача" required>
+    <button type="submit">Добавить</button>
+</form>
+
+<ul>
+    <li th:each="task : ${tasks}">
+        <form th:action="@{/toggle/{id}(id=${task.id})}" method="post" style="display:inline;">
+            <button type="submit">[✓]</button>
+        </form>
+        <span th:classappend="${task.completed} ? 'done'" th:text="${task.description}"></span>
+        <form th:action="@{/delete/{id}(id=${task.id})}" method="post" style="display:inline;">
+            <button type="submit">Удалить</button>
+        </form>
+    </li>
+</ul>
+</body>
+</html>
